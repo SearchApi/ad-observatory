@@ -1,0 +1,21 @@
+name: checks
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.13.0'
+      - name: Check JavaScript syntax
+        run: |
+          find public server scripts tests -type f \( -name '*.js' -o -name '*.mjs' \) -print0 | while IFS= read -r -d '' file; do
+            node --check "$file"
+          done
+      - run: npm test
+      - run: npm run build
+      - name: Check generated guide is current
+        run: git diff --exit-code -- public/api-guide.html
