@@ -1,0 +1,582 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Ad Observatory agent API",
+    "version": "1.0.0",
+    "description": "Private browser-workspace captures and collections. Read API.md for setup, ownership, provenance and limits. Not an MCP server."
+  },
+  "servers": [
+    {
+      "url": "http://127.0.0.1:5190",
+      "description": "Local Ad Observatory"
+    }
+  ],
+  "security": [
+    {
+      "AgentToken": []
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "AgentToken": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "ao_<64 hex characters>"
+      },
+      "SearchApiKey": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-SearchApi-Key"
+      }
+    }
+  },
+  "paths": {
+    "/api/v1/captures": {
+      "get": {
+        "operationId": "get_captures",
+        "summary": "List owned capture summaries",
+        "responses": {
+          "200": {
+            "description": "Success; see API.md for response fields.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "401": {
+            "description": "Missing, expired or rejected credential"
+          },
+          "404": {
+            "description": "Resource absent or not owned"
+          },
+          "429": {
+            "description": "Rate or credit limit"
+          }
+        },
+        "parameters": [
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "description": "Zero-based offset; default 0.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "description": "1\u2013200; default 50.",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ]
+      }
+    },
+    "/api/v1/captures/{id}": {
+      "get": {
+        "operationId": "get_captures_id",
+        "summary": "Read one owned capture",
+        "responses": {
+          "200": {
+            "description": "Success; see API.md for response fields.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "401": {
+            "description": "Missing, expired or rejected credential"
+          },
+          "404": {
+            "description": "Resource absent or not owned"
+          },
+          "429": {
+            "description": "Rate or credit limit"
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    "/api/v1/ads": {
+      "get": {
+        "operationId": "get_ads",
+        "summary": "Read latest advertiser ads and derived observation data",
+        "responses": {
+          "200": {
+            "description": "Success; see API.md for response fields.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "401": {
+            "description": "Missing, expired or rejected credential"
+          },
+          "404": {
+            "description": "Resource absent or not owned"
+          },
+          "429": {
+            "description": "Rate or credit limit"
+          }
+        },
+        "parameters": [
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "description": "Zero-based offset; default 0.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "description": "1\u2013200; default 50.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "capture",
+            "in": "query",
+            "required": false,
+            "description": "",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "description": "",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pageId",
+            "in": "query",
+            "required": false,
+            "description": "",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "format",
+            "in": "query",
+            "required": false,
+            "description": "",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "platform",
+            "in": "query",
+            "required": false,
+            "description": "",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    "/api/v1/compare": {
+      "get": {
+        "operationId": "get_compare",
+        "summary": "Compare two owned successful captures of the same scope",
+        "responses": {
+          "200": {
+            "description": "Success; see API.md for response fields.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "401": {
+            "description": "Missing, expired or rejected credential"
+          },
+          "404": {
+            "description": "Resource absent or not owned"
+          },
+          "429": {
+            "description": "Rate or credit limit"
+          }
+        },
+        "parameters": [
+          {
+            "name": "before",
+            "in": "query",
+            "required": true,
+            "description": "",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "after",
+            "in": "query",
+            "required": true,
+            "description": "",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    "/api/v1/search": {
+      "post": {
+        "operationId": "post_search",
+        "summary": "Search Meta ads by advertiser or keyword using your SearchApi credits",
+        "responses": {
+          "200": {
+            "description": "Success; see API.md for response fields.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "401": {
+            "description": "Missing, expired or rejected credential"
+          },
+          "404": {
+            "description": "Resource absent or not owned"
+          },
+          "429": {
+            "description": "Rate or credit limit"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "url": {
+                    "type": "string"
+                  },
+                  "country": {
+                    "type": "string",
+                    "enum": [
+                      "ALL",
+                      "US",
+                      "GB",
+                      "CA",
+                      "AU",
+                      "BR",
+                      "DE",
+                      "FR",
+                      "IN"
+                    ],
+                    "default": "ALL"
+                  },
+                  "pageId": {
+                    "type": "string"
+                  },
+                  "adPlatform": {
+                    "type": "string",
+                    "enum": [
+                      "all",
+                      "both",
+                      "facebook",
+                      "instagram",
+                      "auto"
+                    ],
+                    "default": "all"
+                  },
+                  "query": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 200,
+                    "description": "Keyword search across advertisers; do not send url."
+                  },
+                  "activeStatus": {
+                    "type": "string",
+                    "enum": [
+                      "active",
+                      "inactive",
+                      "all"
+                    ],
+                    "default": "active"
+                  }
+                },
+                "additionalProperties": false,
+                "oneOf": [
+                  {
+                    "required": [
+                      "url"
+                    ],
+                    "not": {
+                      "required": [
+                        "query"
+                      ]
+                    }
+                  },
+                  {
+                    "required": [
+                      "query"
+                    ],
+                    "not": {
+                      "required": [
+                        "url"
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "AgentToken": [],
+            "SearchApiKey": []
+          }
+        ]
+      }
+    },
+    "/api/v1/collections": {
+      "get": {
+        "operationId": "get_collections",
+        "summary": "List your collection summaries",
+        "responses": {
+          "200": {
+            "description": "Success; see API.md for response fields.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "401": {
+            "description": "Missing, expired or rejected credential"
+          },
+          "404": {
+            "description": "Resource absent or not owned"
+          },
+          "429": {
+            "description": "Rate or credit limit"
+          }
+        }
+      },
+      "post": {
+        "operationId": "post_collections",
+        "summary": "Create a named collection",
+        "responses": {
+          "400": {
+            "description": "Invalid request"
+          },
+          "401": {
+            "description": "Missing, expired or rejected credential"
+          },
+          "404": {
+            "description": "Resource absent or not owned"
+          },
+          "429": {
+            "description": "Rate or credit limit"
+          },
+          "201": {
+            "description": "Success; see API.md for response fields.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "name"
+                ],
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 80
+                  }
+                },
+                "additionalProperties": false
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/collections/{id}": {
+      "get": {
+        "operationId": "get_collections_id",
+        "summary": "Read a collection and saved ads",
+        "responses": {
+          "200": {
+            "description": "Success; see API.md for response fields.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "401": {
+            "description": "Missing, expired or rejected credential"
+          },
+          "404": {
+            "description": "Resource absent or not owned"
+          },
+          "429": {
+            "description": "Rate or credit limit"
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    "/api/v1/collections/{id}/items": {
+      "post": {
+        "operationId": "post_collections_id_items",
+        "summary": "Save an ad from an owned capture",
+        "responses": {
+          "200": {
+            "description": "Success; see API.md for response fields.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "401": {
+            "description": "Missing, expired or rejected credential"
+          },
+          "404": {
+            "description": "Resource absent or not owned"
+          },
+          "429": {
+            "description": "Rate or credit limit"
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "captureId",
+                  "adId"
+                ],
+                "properties": {
+                  "captureId": {
+                    "type": "string"
+                  },
+                  "adId": {
+                    "type": "string"
+                  }
+                },
+                "additionalProperties": false
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
