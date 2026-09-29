@@ -1,0 +1,16 @@
+node_modules/
+dist/
+.preview/
+.data/
+.env
+.env.*
+!.env.example
+*.sqlite
+*.sqlite-*
+*.db
+*.db-*
+*.log
+.DS_Store
+.openai/
+coverage/
+*.tar.gz
