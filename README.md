@@ -88,6 +88,10 @@ Tests use synthetic examples and isolated databases; they do not spend SearchApi
 - **Expired media:** refresh the advertiser or use available copy and metadata; old CDN links may stop working.
 - **Rate limit:** wait before retrying. Search caching and local request limits bound usage; they are not a substitute for monitoring your SearchApi account.
 
-## Review and licensing
+## Contributing
 
-This repository is being prepared for internal review. A license has not yet been selected. Do not describe the project as open source until SearchApi approves and adds the license. See [RELEASE.md](RELEASE.md) for the release checklist.
+See [CONTRIBUTING.md](CONTRIBUTING.md) for local checks, bug reports and pull requests. Never include API keys, workspace tokens or private research data in issues or screenshots.
+
+## Project status and licensing
+
+The standalone application has been merged into `main`. The repository remains private, and the public release checklist is still open. A license has not yet been selected. Do not describe the project as open source until SearchApi approves and adds the license. See [RELEASE.md](RELEASE.md) for the release checklist.
