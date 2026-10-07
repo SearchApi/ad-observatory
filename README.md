@@ -4,6 +4,12 @@ Research public Meta ads with [SearchApi](https://www.searchapi.io/docs/meta-ad-
 
 This is a local example application for developers and technical marketers. It is not a hosted service or a production-ready multi-user deployment.
 
+## Video walkthrough
+
+[![How to Scrape Meta Ads Library for Competitor Research](https://img.youtube.com/vi/R-1rU22SbJo/maxresdefault.jpg)](https://www.youtube.com/watch?v=R-1rU22SbJo)
+
+Watch the full walkthrough on YouTube: [How to Scrape Meta Ads Library for Competitor Research](https://www.youtube.com/watch?v=R-1rU22SbJo).
+
 ## Run locally
 
 You need Git and **Node.js 24.13.0 or newer**. Node 24 is the tested runtime; the app uses Node's built-in SQLite support. No npm packages, cloud account, or separate database installation are required.
