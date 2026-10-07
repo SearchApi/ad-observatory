@@ -24,4 +24,4 @@ Documentation-only changes need a link and consistency review; code changes shou
 
 ## Release and licensing
 
-The repository remains private. See [RELEASE.md](RELEASE.md) for public-release requirements. No license has been selected; contributions do not change that status.
+This project is licensed under the [MIT License](LICENSE). By contributing, you agree that your contributions are licensed under the same terms.

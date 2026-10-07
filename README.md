@@ -94,4 +94,4 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for local checks, bug reports and pull re
 
 ## Project status and licensing
 
-The standalone application has been merged into `main`. The repository remains private, and the public release checklist is still open. A license has not yet been selected. Do not describe the project as open source until SearchApi approves and adds the license. See [RELEASE.md](RELEASE.md) for the release checklist.
+Ad Observatory is open source under the [MIT License](LICENSE). See [RELEASE.md](RELEASE.md) for the release checklist.
