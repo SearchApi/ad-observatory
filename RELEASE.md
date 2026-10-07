@@ -4,7 +4,7 @@ The standalone application was merged into `main` through [PR #1](https://github
 
 Before making this repository public:
 
-- [ ] SearchApi approves and adds the license.
+- [x] SearchApi approves and adds the license (MIT).
 - [ ] A teammate reviews the extraction, request handlers and credential flow.
 - [ ] Required checks and branch protection are configured for the default branch.
 - [ ] Confirm a limited real Shopify and BigCommerce search with a valid user key, media playback/download, and the video walkthrough.
