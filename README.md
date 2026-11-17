@@ -20,7 +20,7 @@ cd ad-observatory
 npm start
 ```
 
-Open **http://127.0.0.1:5190**. The first visit starts empty and does not search for ads. Stop the server with Ctrl+C. While the repository is private, cloning requires access to the SearchApi organization and this repository.
+Open **http://127.0.0.1:5190**. The first visit starts empty and does not search for ads. Stop the server with Ctrl+C.
 
 If you use nvm, run `nvm install` and `nvm use` first. A SQLite experimental warning from Node is expected.
 
@@ -50,9 +50,28 @@ Use the exact `127.0.0.1` URL printed by the server. Keep the same browser and U
 
 Searches use your SearchApi allowance and retrieve at most two result pages. An advertiser lookup may add a request. Reopening retained captures does not run another provider search. There is no automatic refresh or scheduled monitoring.
 
+## SearchApi cost and billing
+
+SearchApi [bills per successful request](https://www.searchapi.io/pricing); failed requests are not billed. One competitor check can require up to **three searches**:
+
+- Up to 2 `meta_ad_library` requests (one per result page when pagination is available)
+- 1 `meta_ad_library_page_search` request when you paste an Instagram profile or Facebook Page alias that needs to be resolved to a numeric advertiser ID
+
+**Example cost:** At the entry rate of $4 per 1,000 searches, one competitor check costs approximately $0.012. Tracking 5 brands weekly uses roughly 60 searches per month, or about $0.25/month. Higher-tier plans reduce the per-search cost. See the [SearchApi pricing page](https://www.searchapi.io/pricing) for current rates; prices may change.
+
+Reopening retained captures does not call SearchApi and incurs no additional cost.
+
 ## What the app adds
 
 SearchApi retrieves structured public ad records: available text, media URLs, advertiser information, source dates and placements. Ad Observatory adds a gallery, creative grouping, filters, saved competitors, dated captures, collections, exports and individual asset downloads. Optional destination checks inspect a small number of advertised URLs; they are not SearchApi search results.
+
+**Snapshot comparison** lets you pick two dated captures for the same advertiser and see:
+- **New ad IDs** in the later capture (not present in the baseline)
+- **Retained ad IDs** seen in both captures
+- **Missing ad IDs** present in the baseline but absent from the later capture
+- **Edited copy** indicators when the same ad ID has different text between captures
+
+Ads are matched by their stable ad archive ID from the SearchApi record. Comparisons work from stored captures only and do not trigger new SearchApi calls. Treat missing ads as possibly stopped, not confirmed: each search is a bounded sample (maximum 2 result pages), so absence does not prove an ad stopped running.
 
 A long-running ad is a research clue, not proof of conversions, profitability, spend, targeting, or continuous delivery. Absence from a later bounded sample does not prove that an ad stopped. Media remains hosted by its source and can expire; a saved collection is not a permanent video archive.
 
