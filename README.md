@@ -69,6 +69,7 @@ SearchApi retrieves structured public ad records: available text, media URLs, ad
 - **New ad IDs** in the later capture (not present in the baseline)
 - **Retained ad IDs** seen in both captures
 - **Missing ad IDs** present in the baseline but absent from the later capture
+- **Edited copy** indicators when the same ad ID has different text between captures
 
 Ads are matched by their stable ad archive ID from the SearchApi record. Comparisons work from stored captures only and do not trigger new SearchApi calls. Treat missing ads as possibly stopped, not confirmed: each search is a bounded sample (maximum 2 result pages), so absence does not prove an ad stopped running.
 

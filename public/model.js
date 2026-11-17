@@ -1,12 +1,23 @@
 export const escapeHtml=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 export function safeUrl(value,media=false){try{const u=new URL(value);if(!['https:','http:'].includes(u.protocol)||u.username||u.password)return '';if(media&&(u.protocol!=='https:'||!['fbcdn.net','cdninstagram.com'].some(h=>u.hostname===h||u.hostname.endsWith('.'+h))))return '';return u.href;}catch{return '';}}
+const normalizedText=value=>String(value??'').normalize('NFKC').replace(/\s+/gu,' ').trim().toLowerCase();
 export function compareSnapshots(before,after){
  if(!before||!after)return {available:false,reason:'Save a second snapshot to compare observations.'};
  if(before.id===after.id||Date.parse(before.capturedAt)>=Date.parse(after.capturedAt))return {available:false,reason:'Choose an earlier baseline and a later snapshot.'};
  if(before.scopeKey!==after.scopeKey)return {available:false,reason:'These snapshots use different watchlists or collection settings. Choose matching scopes.'};
  if(before.status!=='ready'||after.status!=='ready')return {available:false,reason:'One capture is incomplete because of errors or skipped records. Choose two successful captures.'};
  const old=new Set(before.ads.map(a=>a.id)),current=new Set(after.ads.map(a=>a.id));
- return {available:true,added:after.ads.filter(a=>!old.has(a.id)),retained:after.ads.filter(a=>old.has(a.id)),missing:before.ads.filter(a=>!current.has(a.id)),bounded:[...before.coverage,...after.coverage].some(c=>c.status==='bounded')};
+ const oldMap=new Map(before.ads.map(a=>[a.id,a]));
+ const retained=after.ads.filter(a=>old.has(a.id)).map(a=>{
+  const prev=oldMap.get(a.id);
+  if(!prev)return a;
+  const bodyChanged=normalizedText(prev.body)!==normalizedText(a.body);
+  const titleChanged=normalizedText(prev.title)!==normalizedText(a.title);
+  const ctaChanged=normalizedText(prev.cta)!==normalizedText(a.cta);
+  const copyEdited=bodyChanged||titleChanged||ctaChanged;
+  return copyEdited?{...a,_copyEdited:true,_previousCopy:{body:prev.body,title:prev.title,cta:prev.cta}}:a;
+ });
+ return {available:true,added:after.ads.filter(a=>!old.has(a.id)),retained,missing:before.ads.filter(a=>!current.has(a.id)),bounded:[...before.coverage,...after.coverage].some(c=>c.status==='bounded')};
 }
 export function filterAds(ads,{query='',brand='',format='',platform='',sort='recent'}={}){
  const q=query.trim().toLowerCase(),brands=Array.isArray(brand)?brand:brand?[brand]:[];
